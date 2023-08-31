@@ -57,18 +57,19 @@ ENV PATH="/opt/conda/bin:$PATH"
 ##  Bug-Fix: Running the conda version 4.13.0, we face an incompatibility issue with python 3.11. 
 ##  Issue and fix appled as suggested in this github issue: https://github.com/deepmind/alphafold/issues/798
 #RUN conda install -qy conda==4.13.0 \
-RUN conda install -qy conda==23.1.0 \
+RUN conda install -qy conda==23.5.2 \
     && conda install -y -c conda-forge \
-      openmm=7.5.1 \
+      openmm=7.7.0 \
       pdbfixer \
       pip \
-      python=3.8
+      python=3.10
 
 RUN conda install -y -c "nvidia/label/cuda-${CUDA}" cuda-toolkit
 
 RUN conda clean --all --force-pkgs-dirs --yes
 
 RUN git clone --branch $ALPHAFOLD_VERSION https://github.com/deepmind/alphafold.git /app/alphafold
+
 RUN wget -q -P /app/alphafold/alphafold/common/ \
   https://git.scicore.unibas.ch/schwede/openstructure/-/raw/7102c63615b64735c4941278d92b554ec94415f8/modules/mol/alg/src/stereo_chemical_props.txt
 
@@ -81,7 +82,7 @@ RUN pip3 install --upgrade pip --no-cache-dir \
       -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
 
 # Apply OpenMM patch.
-WORKDIR /opt/conda/lib/python3.8/site-packages
+WORKDIR /opt/conda/lib/python3.10/site-packages
 RUN patch -p0 < /app/alphafold/docker/openmm.patch
 
 # Add SETUID bit to the ldconfig binary so that non-root users can run it.
