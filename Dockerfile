@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG CUDA=11.1.1
-FROM nvidia/cuda:${CUDA}-cudnn8-runtime-ubuntu18.04
+ARG CUDA=12.1.0
+FROM nvidia/cuda:${CUDA}-cudnn8-runtime-ubuntu22.04
 # FROM directive resets ARGS, so we specify again (the value is retained if
 # previously set).
 ARG CUDA
@@ -60,10 +60,12 @@ ENV PATH="/opt/conda/bin:$PATH"
 RUN conda install -qy conda==23.1.0 \
     && conda install -y -c conda-forge \
       openmm=7.5.1 \
-      cudatoolkit==${CUDA_VERSION} \
       pdbfixer \
       pip \
-      python=3.8 \
+      python=3.8
+
+RUN conda install -y -c "nvidia/label/cuda-${CUDA}" \
+      cuda-toolkit \
       && conda clean --all --force-pkgs-dirs --yes
 
 RUN git clone --branch $ALPHAFOLD_VERSION https://github.com/deepmind/alphafold.git /app/alphafold
@@ -74,8 +76,8 @@ RUN wget -q -P /app/alphafold/alphafold/common/ \
 RUN pip3 install --upgrade pip --no-cache-dir \
     && pip3 install -r /app/alphafold/requirements.txt --no-cache-dir \
     && pip3 install --upgrade --no-cache-dir \
-      jax==0.3.25 \
-      jaxlib==0.3.25+cuda11.cudnn805 \
+      jax==0.4.13 \
+      jax[cuda12_pip] \
       -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
 
 # Apply OpenMM patch.
