@@ -138,7 +138,7 @@ First, clone the repo and prepare environment variables.
 
 ```bash
 cd ${HOME}
-git clone https://github.com/GoogleCloudPlatform/vertex-ai-alphafold-inference-pipeline.git
+git clone https://github.com/saltysoup/vertex-ai-alphafold-inference-pipeline.git
 
 REPO="vertex-ai-alphafold-inference-pipeline"
 SOURCE_ROOT=${HOME}/${REPO}
@@ -208,7 +208,7 @@ Open Vertex AI Workbench, connect to the notebook instance clicking on the "OPEN
 On the JupyterLab interface, launch a new Terminal tab and execute the following command:
 
 ```bash
-git clone https://github.com/GoogleCloudPlatform/vertex-ai-alphafold-inference-pipeline.git
+git clone https://github.com/saltysoup/vertex-ai-alphafold-inference-pipeline.git
 ```
 
 ### Congratulations!
