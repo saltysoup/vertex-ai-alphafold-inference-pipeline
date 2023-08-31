@@ -64,9 +64,9 @@ RUN conda install -qy conda==23.1.0 \
       pip \
       python=3.8
 
-RUN conda install -y -c "nvidia/label/cuda-${CUDA}" \
-      cuda-toolkit \
-      && conda clean --all --force-pkgs-dirs --yes
+RUN conda install -y -c "nvidia/label/cuda-${CUDA}" cuda-toolkit
+
+RUN conda clean --all --force-pkgs-dirs --yes
 
 RUN git clone --branch $ALPHAFOLD_VERSION https://github.com/deepmind/alphafold.git /app/alphafold
 RUN wget -q -P /app/alphafold/alphafold/common/ \
